@@ -11,6 +11,7 @@ module.exports = {
     extend: {
       colors: {
         primary: colors.blue,
+        secondary: colors.fuchsia,
         danger: colors.red,
         warning: colors.orange,
         success: colors.green,
@@ -18,5 +19,5 @@ module.exports = {
       opacity: ['disabled'],
     },
   },
-  plugins: [],
+  plugins: [require('@tailwindcss/forms')],
 }
