@@ -1,6 +1,9 @@
 lockfileVersion: '6.0'
 
 dependencies:
+  '@formkit/themes':
+    specifier: ^0.16.5
+    version: 0.16.5(tailwindcss@3.2.7)
   '@formkit/vue':
     specifier: 1.0.0-beta.15
     version: 1.0.0-beta.15(tailwindcss@3.2.7)(vue@3.2.47)
@@ -31,6 +34,9 @@ dependencies:
   pinia:
     specifier: ^2.0.32
     version: 2.0.33(typescript@4.8.4)(vue@3.2.47)
+  pinia-plugin-persistedstate:
+    specifier: ^3.1.0
+    version: 3.1.0(pinia@2.0.33)
   vue:
     specifier: ^3.2.47
     version: 3.2.47
@@ -1693,6 +1699,12 @@ packages:
     resolution: {integrity: sha512-cEee/Z+I12mZcFJshKcCqC8tuX5hG3s+d+9nZ3LabqKF1vKdF41B92pJVCBggjAGORAeOzyyDDKrZwIkLffeOQ==}
     dev: true
 
+  /@formkit/core@0.16.5:
+    resolution: {integrity: sha512-cr2HT3JtTaEWnrjiXkxrsbdMjLLJc73sgkX9HhgNsWMBjVdRxFlk1NHJzACsX4F/tMujCMJC6FiayIEfVC93xA==}
+    dependencies:
+      '@formkit/utils': 0.16.5
+    dev: false
+
   /@formkit/core@1.0.0-beta.15:
     resolution: {integrity: sha512-BOqUUF8iF+H9fQMsQFqc753/LBeNkMixmS3tCMpo1kjUjPq/hSmj+f1V07CqQldmQa7y1NJGClWd2mYU3uQKRA==}
     dependencies:
@@ -1735,6 +1747,24 @@ packages:
       '@formkit/validation': 1.0.0-beta.15
     dev: false
 
+  /@formkit/themes@0.16.5(tailwindcss@3.2.7):
+    resolution: {integrity: sha512-ZnslUYLKIMthndH4p6L8Le3MCZRvXAvFnkNZwRJvT5MoPWkTmtNe6oBcPnjFhlwEeMQDaIc9gyO3ZJLkv60hug==}
+    peerDependencies:
+      tailwindcss: ^3.2.0
+      unocss: ^0.31.0
+      windicss: ^3.0.0
+    peerDependenciesMeta:
+      tailwindcss:
+        optional: true
+      unocss:
+        optional: true
+      windicss:
+        optional: true
+    dependencies:
+      '@formkit/core': 0.16.5
+      tailwindcss: 3.2.7(postcss@8.4.21)
+    dev: false
+
   /@formkit/themes@1.0.0-beta.15(tailwindcss@3.2.7):
     resolution: {integrity: sha512-bn1dYYVlPb6u2TEQsriXStfPgj+m7+4yKLWc2SbtmNpGqmkSCiIQjVIcHpcERHW0x0BcYzDOXnJ+vbo7SXJqyQ==}
     peerDependencies:
@@ -1751,6 +1781,10 @@ packages:
     dependencies:
       '@formkit/core': 1.0.0-beta.15
       tailwindcss: 3.2.7(postcss@8.4.21)
+    dev: false
+
+  /@formkit/utils@0.16.5:
+    resolution: {integrity: sha512-wQ+Nx+kALW6SGc3E5dVgp7gxzN8mGVywOMslBeg7J5D6jx0KOqaS/aIFXK4agbqpkwX4HGIskc8scGsOKD0pVg==}
     dev: false
 
   /@formkit/utils@1.0.0-beta.15:
@@ -2105,7 +2139,7 @@ packages:
       '@storybook/csf-plugin': 7.0.0-beta.64
       '@storybook/csf-tools': 7.0.0-beta.64
       '@storybook/global': 5.0.0
-      '@storybook/mdx2-csf': 1.0.0-next.8
+      '@storybook/mdx2-csf': 1.1.0-next.1
       '@storybook/node-logger': 7.0.0-beta.64
       '@storybook/postinstall': 7.0.0-beta.64
       '@storybook/preview-api': 7.0.0-beta.64
@@ -2430,7 +2464,7 @@ packages:
       '@storybook/client-logger': 7.0.0-beta.64
       '@storybook/core-common': 7.0.0-beta.64
       '@storybook/csf-plugin': 7.0.0-beta.64
-      '@storybook/mdx2-csf': 1.0.0-next.8
+      '@storybook/mdx2-csf': 1.1.0-next.1
       '@storybook/node-logger': 7.0.0-beta.64
       '@storybook/preview': 7.0.0-beta.64
       '@storybook/preview-api': 7.0.0-beta.64
@@ -2842,8 +2876,8 @@ packages:
     resolution: {integrity: sha512-bUw/DsSk6ASEXWsUORefctRDamm1ZOrUBUZXMHeCu0DnLMCjW0r9pE6YIdKmJnOH296HT2rhyjTY1veIfnZYuA==}
     dev: true
 
-  /@storybook/mdx2-csf@1.0.0-next.8:
-    resolution: {integrity: sha512-t2O5s/HHTH5evZVHgVtCWTZgMZ/CaqDu3xVGgjVbKeTvpPAbi0Waab5SSX8T9PG5jNDei/x+jpAVCcNMOHoWzg==}
+  /@storybook/mdx2-csf@1.1.0-next.1:
+    resolution: {integrity: sha512-ONvFBZySHsBIkUYGrUM8FCG2tDKf663TIErztPSOghOpmBGyFLjSsXJHkNWiRi4c740PoemLqJd2XZZVlXRVLQ==}
     dev: true
 
   /@storybook/node-logger@7.0.0-beta.64:
@@ -7677,6 +7711,14 @@ packages:
     resolution: {integrity: sha512-uB80kBFb/tfd68bVleG9T5GGsGPjJrLAUpR5PZIrhBnIaRTQRjqdJSsIKkOP6OAIFbj7GOrcudc5pNjZ+geV2g==}
     engines: {node: '>=6'}
     dev: true
+
+  /pinia-plugin-persistedstate@3.1.0(pinia@2.0.33):
+    resolution: {integrity: sha512-8UN+vYMEPBdgNLwceY08mi5olI0wkYaEb8b6hD6xW7SnBRuPydWHlEhZvUWgNb/ibuf4PvufpvtS+dmhYjJQOw==}
+    peerDependencies:
+      pinia: ^2.0.0
+    dependencies:
+      pinia: 2.0.33(typescript@4.8.4)(vue@3.2.47)
+    dev: false
 
   /pinia@2.0.33(typescript@4.8.4)(vue@3.2.47):
     resolution: {integrity: sha512-HOj1yVV2itw6rNIrR2f7+MirGNxhORjrULL8GWgRwXsGSvEqIQ+SE0MYt6cwtpegzCda3i+rVTZM+AM7CG+kRg==}

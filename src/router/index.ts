@@ -34,7 +34,20 @@ const router = createRouter({
       component: () =>
         import(/* webpackChunkName: "planer" */ "@/views/Planer.vue"),
     },
-
+    {
+      path: "/recurring",
+      name: "recurring",
+      meta: { requiresAuth: true },
+      component: () =>
+        import(/* webpackChunkName: "planer" */ "@/views/Recurring.vue"),
+    },
+    {
+      path: "/settings",
+      name: "settings",
+      meta: { requiresAuth: true },
+      component: () =>
+        import(/* webpackChunkName: "planer" */ "@/views/SettingsView.vue"),
+    },
     {
       path: "/login",
       name: "login",

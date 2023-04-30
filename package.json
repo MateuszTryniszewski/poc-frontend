@@ -20,6 +20,7 @@
     "storybook": "concurrently 'pnpm:watch:*'"
   },
   "dependencies": {
+    "@formkit/themes": "^0.16.5",
     "@formkit/vue": "1.0.0-beta.15",
     "@headlessui/vue": "^1.7.12",
     "@heroicons/vue": "^2.0.17",
@@ -30,6 +31,7 @@
     "@storybook/theming": "^6.2.9",
     "axios": "^1.3.6",
     "pinia": "^2.0.32",
+    "pinia-plugin-persistedstate": "^3.1.0",
     "vue": "^3.2.47",
     "vue-router": "^4.1.6"
   },

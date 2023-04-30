@@ -5,7 +5,7 @@
     <div class="fixed inset-0 overflow-y-auto">
       <div class="flex min-h-full items-center justify-center p-4">
 
-        <DialogPanel class="w-full max-w-sm rounded bg-white">
+        <DialogPanel class="w-full max-w-sm rounded bg-white sm:px-4 sm:py-6">
           <DialogTitle><slot name="title"></slot></DialogTitle>
           <DialogDescription></DialogDescription>
           <slot name="content"></slot>

@@ -87,6 +87,7 @@
 </template>
 
 <script setup>
+import { computed } from 'vue'
 import { RouterView, RouterLink } from 'vue-router'
 import { Disclosure, DisclosureButton, DisclosurePanel, Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
 import { Bars3Icon, BellIcon, XMarkIcon, UserIcon, ArrowRightOnRectangleIcon  } from '@heroicons/vue/24/outline'
@@ -100,10 +101,11 @@ const user = {
   email: 'tom@example.com',
 }
 const navigation = [
-  { name: 'Dashboard', href: 'dashboard', current: true },
-  { name: 'Śledzenie', href: 'tracker', current: false },
-  { name: 'Planowanie', href: 'planer', current: false },
-  { name: 'Cykliczne', href: '#', current: false },
+  { name: 'Dashboard', href: 'dashboard' },
+  { name: 'Śledzenie', href: 'tracker'},
+  { name: 'Planowanie', href: 'planer' },
+  { name: 'Cykliczne', href: 'recurring' },
+  { name: 'Ustawienia', href: 'settings' },
 ]
 const userNavigation = [
 { name: 'Dashboard', href: '#', current: true },
@@ -115,5 +117,8 @@ const userNavigation = [
 function logout() {
   authStore.logout();
 }
+
+// const currentRouteName = computed(()=> this.router.name)
+
 
 </script>

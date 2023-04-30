@@ -86,15 +86,21 @@
               v-model="selectedItem"
               @submit="saveRow">
 
-              <FormKit type="text" name="description" label="Opis"/>
-              <FormKit type="date" name="date" label="tytuł"/>
+              <FormKit type="text" name="title" label="Opis"/>
+              <FormKit type="date" name="date" label="Data"/>
               <FormKit
-                name="group"
+                name="group_id"
                 type="radio"
                 label="Typ"
-                :options="['Przychody', 'Koszty']"
+                :options="[
+                  { label: 'Przychody', value: 1 },
+                  { label: 'Koszty', value: 2 }
+                ]"
               />
-              <FormKit type="select" name="category" label="Kategoria" :options="['samochód','dom','jedzenie','elektronika']"/>
+              <FormKit type="select"
+                name="category"
+                label="Kategoria"
+                :options="categoriesOptions"/>
               <FormKit type="number" name="amount" label="Kwota"/>
             </FormKit>
           </div>
@@ -110,7 +116,7 @@
 </template>
 
 <script setup>
-import { ref, reactive } from 'vue'
+import { ref, reactive, computed } from 'vue'
 import { Dialog, DialogPanel, TransitionChild, TransitionRoot } from '@headlessui/vue'
 import {
   ChartBarSquareIcon,
@@ -126,9 +132,14 @@ import {
 import { Bars3Icon, MagnifyingGlassIcon } from '@heroicons/vue/20/solid'
 import DialogComponent from '@/components/DialogComponent.vue'
 import ConfirmationDialogComponent from '@/components/ConfirmationDialogComponent.vue'
+import { useCategoryStore } from "@/stores/categoryStore";
+
+const categoryStore = useCategoryStore()
 
 const dialogState = ref(false);
 const ConfirmationDialogState = ref(false);
+const categoriesOptions = computed(() =>
+  categoryStore.getCategories.map((item) => ({ ...item, label: item.category, value: item.id }) ))
 
 let selectedItem = reactive({});
 
