@@ -77,7 +77,7 @@
         />
         <FormKit
           type="checkbox"
-          label="Revenues"
+          label="Koszty"
           name="revenue"
         />
         <FormKit

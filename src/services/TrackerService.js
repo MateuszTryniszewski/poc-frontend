@@ -1,16 +1,16 @@
 import * as API from "@/services/API";
 
 export default {
-  getCategories() {
+  getTrackers() {
     return API.apiClient.get(`/trackers`);
   },
-  updateCategory(categoryId, payload) {
-    return API.apiClient.put(`/trackers/${categoryId}`, payload);
-  },
-  createCategory(payload) {
+  createTrackers(payload) {
     return API.apiClient.post(`/trackers`, payload);
   },
-  deleteCategory(id) {
+  updateTrackers(categoryId, payload) {
+    return API.apiClient.put(`/trackers/${categoryId}`, payload);
+  },
+  deleteTrackers(id) {
     return API.apiClient.delete(`/trackers/${id}`);
   },
 

@@ -88,19 +88,13 @@
 
               <FormKit type="text" name="title" label="Opis"/>
               <FormKit type="date" name="date" label="Data"/>
-              <FormKit
-                name="group_id"
-                type="radio"
-                label="Typ"
+              <FormKit name="group_id" type="radio" label="Typ"
                 :options="[
                   { label: 'Przychody', value: 1 },
                   { label: 'Koszty', value: 2 }
                 ]"
               />
-              <FormKit type="select"
-                name="category"
-                label="Kategoria"
-                :options="categoriesOptions"/>
+              <FormKit type="select" name="category_id" label="Kategoria" :options="categoriesOptions"/>
               <FormKit type="number" name="amount" label="Kwota"/>
             </FormKit>
           </div>
@@ -133,8 +127,10 @@ import { Bars3Icon, MagnifyingGlassIcon } from '@heroicons/vue/20/solid'
 import DialogComponent from '@/components/DialogComponent.vue'
 import ConfirmationDialogComponent from '@/components/ConfirmationDialogComponent.vue'
 import { useCategoryStore } from "@/stores/categoryStore";
+import { useTrackerStore } from "@/stores/trackerStore"
 
 const categoryStore = useCategoryStore()
+const trackerStore = useTrackerStore()
 
 const dialogState = ref(false);
 const ConfirmationDialogState = ref(false);
@@ -151,29 +147,7 @@ const stats = [
 ]
 const statuses = { Completed: 'text-green-400 bg-green-400/10', Error: 'text-rose-400 bg-rose-400/10' }
 
-const activityItems = ref([
-  {
-    id: 1,
-    date: '2023-04-04',
-    group: 'Koszty',
-    category: 'Samochód',
-    amount: 27.50,
-    description: 'Za paliwko',
-    saldo: 1250,
-    effectiveDate: '2023-01-23',
-  },
-  {
-    id: 2,
-    date: '2023-04-04',
-    group: 'Koszty',
-    category: 'Samochód',
-    amount: 27.50,
-    description: 'Za paliwko',
-    saldo: 1250,
-    effectiveDate: '2023-01-23',
-  }
-  
-])
+const activityItems = computed(() => trackerStore.getTrackers)
 
 function editRow(item) {
   dialogState.value = true;
@@ -184,10 +158,15 @@ function deleteRow(state) {
   ConfirmationDialogState = false
 }
 
-function saveRow() {
+async function saveRow() {
   console.log(selectedItem?.id)
+  
   const row = activityItems.value.findIndex(item => item?.id === selectedItem?.id)
-  row === -1 ? activityItems.value.push(selectedItem) : activityItems.value[row] = selectedItem
+
+  row === -1
+    ? await trackerStore.addTrackers(selectedItem)
+    : await trackerStore.updateTrackers(selectedItem.id ,selectedItem)
+
   dialogState.value = false;
   console.log(activityItems.value)
 }
