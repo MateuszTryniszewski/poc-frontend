@@ -38,7 +38,7 @@ export const useTrackerStore = defineStore({
     },
     async deleteTrackers(id) {
       try {
-        this.trackers = this.trackers.filter(item => item?.id === id)
+        this.trackers = this.trackers.filter(item => item?.id !== id)
         await TrackerService.deleteTrackers(id);
       } catch (error) {
         this.error = getError(error);
@@ -50,6 +50,44 @@ export const useTrackerStore = defineStore({
   getters: {
     getTrackers(state){
       return state.trackers
+    },
+    
+    getRowCount(state) {
+      return state.trackers.length
+    },
+
+    getIncoming(state) {
+      return state.trackers.filter((item) => item.group_id === 1)
+    },
+
+    getRevenues(state) {
+      return state.trackers.filter((item) => item.group_id === 2)
+    },
+
+    getIncomingCount(state) {
+      return state.trackers.filter((item) => item.group_id === 1).length
+    },
+    
+    getRevenuesCount(state) {
+      return state.trackers.filter((item) => item.group_id === 2).length
+    },
+
+    getIncomingSum() {
+      const summ = this.getIncoming.reduce((acc, obj) => {
+        return acc + (obj.amount * 1)
+      }, 0)
+      return summ
+    },
+
+    getRevenuesSum() {
+      const summ =  this.getRevenues.reduce((acc, obj) => {
+        return acc + (obj.amount * 1)
+      },0)
+      return summ
+    },
+
+    saldo() {
+      return this.getIncomingSum - this.getRevenuesSum
     }
   },
 });
