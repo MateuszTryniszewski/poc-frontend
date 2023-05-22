@@ -38,7 +38,7 @@ export const useCategoryStore = defineStore({
     },
     async deleteCategory(id) {
       try {
-        this.categories = this.categories.filter(item => item?.id === id)
+        this.categories = this.categories.filter(item => item?.id !== id)
         await CategoriesService.deleteCategory(id);
       } catch (error) {
         this.error = getError(error);

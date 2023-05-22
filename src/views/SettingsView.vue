@@ -67,7 +67,7 @@
         <FormKit
           type="text"
           name="category"
-          label="Przychód"
+          label="Kategoria"
           validation="required"
         />
         <FormKit

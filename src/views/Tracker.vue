@@ -6,10 +6,18 @@
           <!-- Stats -->
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:grid-cols-4 mt-6">
             <div v-for="(stat, statIdx) in stats" :key="stat.name" :class="['border border-sky-300 bg-sky-100 rounded-md py-6 px-4 sm:px-6 lg:px-8']">
-              <p class="text-sm font-medium leading-6 text-gray-900">{{ stat.name }}</p>
-              <p class="mt-2 flex items-baseline gap-x-2">
-                <span class="text-4xl font-semibold tracking-tight text-dark">{{ stat.value }}</span>
-              </p>
+              <div class="flex items-center gap-4">
+                <p class="text-sm font-medium leading-6 text-gray-900">{{ stat.name }}</p>
+                <p class="flex items-baseline">
+                  <span class="font-semibold tracking-tight text-dark">{{ stat.value }}</span>
+                </p>
+              </div>
+              <div v-if="stat.subValue" class="flex items-center gap-4">
+                <p class="text-sm font-medium leading-6 text-gray-900">{{ stat.subname }}</p>
+                <p class="flex items-baseline">
+                  <span class="font-semibold tracking-tight text-dark">{{ stat.subValue }} PLN</span>
+                </p>
+              </div>
             </div>
           </div>
         </header>
@@ -50,17 +58,17 @@
                 <tbody class="divide-y divide-gray-200">
                   <tr v-for="item in activityItems" :key="item.commit">
                     <td class="truncate text-sm font-medium leading-6 text-dark">{{ item.date }}</td>
-                    <td class="py-4 text-sm leading-6 text-gray-900 md:table-cell ">{{ item.group }}</td>
-                    <td class="py-4 text-sm leading-6 text-gray-900 md:table-cell ">{{ item.category }}</td>
+                    <td class="py-4 text-sm leading-6 text-gray-900 md:table-cell ">{{ item?.group_type?.name }}</td>
+                    <td class="py-4 text-sm leading-6 text-gray-900 md:table-cell ">{{ item?.category?.category }}</td>
                     <td class="py-4 text-sm leading-6 text-gray-900 md:table-cell ">{{ item.amount }}</td>
-                    <td class="py-4 text-sm leading-6 text-gray-900 md:table-cell ">{{ item.description }}</td>
-                    <td class="py-4 text-sm leading-6 text-gray-900 md:table-cell ">{{ item.saldo }}</td>
-                    <td class="py-4 text-sm leading-6 text-gray-900 md:table-cell ">{{ item.effectiveDate }}</td>
+                    <td class="py-4 text-sm leading-6 text-gray-900 md:table-cell ">{{ item.title }}</td>
+                    <td class="py-4 text-sm leading-6 text-gray-900 md:table-cell ">{{ item.amount }}</td>
+                    <td class="py-4 text-sm leading-6 text-gray-900 md:table-cell ">{{ item.date }}</td>
                     <td class="py-4 text-sm leading-6 text-gray-900 md:table-cell w-24 text-right">
                       <button class="mx-1 px-1 text-secondary-600" title="Edytuj" @click="editRow(item)">
                         <PencilSquareIcon class="h-6 w-6" aria-hidden="true"/>
                       </button>
-                      <button class="mx-1 px-1 text-danger-600" title="Usuń" @click="ConfirmationDialogState = true">
+                      <button class="mx-1 px-1 text-danger-600" title="Usuń" @click="confirmDeleteRow(item)">
                         <TrashIcon class="h-6 w-6" aria-hidden="true"/>
                       </button>
                     </td>
@@ -86,16 +94,16 @@
               v-model="selectedItem"
               @submit="saveRow">
 
-              <FormKit type="text" name="title" label="Opis"/>
-              <FormKit type="date" name="date" label="Data"/>
-              <FormKit name="group_id" type="radio" label="Typ"
+              <FormKit type="text" name="title" label="Opis" validation="required"/>
+              <FormKit type="date" name="date" label="Data" validation="required"/>
+              <FormKit name="group_id" type="radio" label="Typ" validation="required"
                 :options="[
                   { label: 'Przychody', value: 1 },
                   { label: 'Koszty', value: 2 }
                 ]"
               />
-              <FormKit type="select" name="category_id" label="Kategoria" :options="categoriesOptions"/>
-              <FormKit type="number" name="amount" label="Kwota"/>
+              <FormKit type="select" name="category_id" label="Kategoria" :options="categoriesOptions" validation="required"/>
+              <FormKit type="number" name="amount" label="Kwota" validation="required"/>
             </FormKit>
           </div>
         </template>
@@ -103,14 +111,14 @@
 
       <ConfirmationDialogComponent
         :ConfirmationOpen="ConfirmationDialogState"
-        @confirm="deleteRow(true)"
+        @setConfirm="deleteRow"
         @setClose="ConfirmationDialogState = false" >
       </ConfirmationDialogComponent>
     </div>
 </template>
 
 <script setup>
-import { ref, reactive, computed } from 'vue'
+import { ref, reactive, computed, onMounted } from 'vue'
 import { Dialog, DialogPanel, TransitionChild, TransitionRoot } from '@headlessui/vue'
 import {
   ChartBarSquareIcon,
@@ -132,6 +140,7 @@ import { useTrackerStore } from "@/stores/trackerStore"
 const categoryStore = useCategoryStore()
 const trackerStore = useTrackerStore()
 
+// const initDate = ref(new Date().toDateString());
 const dialogState = ref(false);
 const ConfirmationDialogState = ref(false);
 const categoriesOptions = computed(() =>
@@ -140,10 +149,10 @@ const categoriesOptions = computed(() =>
 let selectedItem = reactive({});
 
 const stats = [
-  { name: 'Zapisanych wierszy', value: '405' },
-  { name: 'przychodów', value: '100' },
-  { name: 'kosztów', value: '323' },
-  { name: 'kategorii', value: '4' },
+  { name: 'Przychodów', value: trackerStore.getIncomingCount, subname: 'Kwota' , subValue: trackerStore.getIncomingSum  },
+  { name: 'Kosztów', value: trackerStore.getRevenuesCount, subname: 'Kwota' , subValue: trackerStore.getRevenuesSum },
+  { name: 'Ogółem wierszy', value: trackerStore.getRowCount, },
+  { name: 'Saldo', value: trackerStore.saldo },
 ]
 const statuses = { Completed: 'text-green-400 bg-green-400/10', Error: 'text-rose-400 bg-rose-400/10' }
 
@@ -154,21 +163,25 @@ function editRow(item) {
   selectedItem = item;
 }
 
-function deleteRow(state) {
-  ConfirmationDialogState = false
+function confirmDeleteRow(item) {
+  ConfirmationDialogState.value = true
+  selectedItem = item
+}
+function deleteRow() {
+  ConfirmationDialogState.value = false
+  trackerStore.deleteTrackers(selectedItem.id)
 }
 
-async function saveRow() {
-  console.log(selectedItem?.id)
-  
+async function saveRow() {  
   const row = activityItems.value.findIndex(item => item?.id === selectedItem?.id)
 
   row === -1
     ? await trackerStore.addTrackers(selectedItem)
-    : await trackerStore.updateTrackers(selectedItem.id ,selectedItem)
+    : await trackerStore.updateTrackers(selectedItem)
 
   dialogState.value = false;
-  console.log(activityItems.value)
 }
 const sidebarOpen = ref(false);
+
+onMounted(() => trackerStore.fetchTrackers())
 </script>

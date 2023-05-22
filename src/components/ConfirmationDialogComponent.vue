@@ -9,7 +9,7 @@
           <DialogTitle class="font-bold text-xl">Czy na pewno chcesz usunąć?</DialogTitle>
 
           <button @click="$emit('setClose')" class="rounded-md bg-gray-200 px-3 py-2 text-sm font-semibold">Zamknij</button>
-          <button type="button"  @close="$emit('confirm')"
+          <button type="button"  @click="$emit('setConfirm')"
             class="ml-2 relative inline-flex items-center rounded-md bg-danger-500 px-3 py-2 text-sm font-semibold text-white
             shadow-sm hover:bg-danger-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2
             focus-visible:outline-danger-600">Usuń</button>
@@ -24,7 +24,6 @@
     Dialog,
     DialogPanel,
     DialogTitle,
-    DialogDescription,
   } from '@headlessui/vue';
 
   defineProps({
@@ -32,6 +31,6 @@
     }
   )
 
-  defineEmits(['confirm','setClose'])
+  defineEmits(['setConfirm','setClose'])
 
 </script>
