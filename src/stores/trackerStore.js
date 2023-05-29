@@ -16,6 +16,7 @@ export const useTrackerStore = defineStore({
       try {
         const response = await TrackerService.getTrackers();
         this.trackers = response.data;  
+        console.log('a')
       } catch (error) {
         this.error = getError(error);
       }

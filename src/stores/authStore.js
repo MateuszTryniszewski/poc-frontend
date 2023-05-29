@@ -16,7 +16,7 @@ export const useAuth = defineStore({
       try {
         await AuthService.login(payload);
         await this.getAuthUser();
-        if (this.loggedIn) this.router.push({ path: "/" });
+        if (this.loggedIn) this.router.push({ path: "/dashboard" });
       } catch (error) {
         this.error = getError(error);
       }

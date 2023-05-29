@@ -148,12 +148,20 @@ const categoriesOptions = computed(() =>
 
 let selectedItem = reactive({});
 
+const getIncomingCount = computed(() => trackerStore?.getIncomingCount || 0)
+const getRevenuesCount = computed(() => trackerStore?.getRevenuesCount || 0)
+const getRowCount = computed(() => trackerStore?.getRowCount || 0)
+const saldo = computed(() => trackerStore?.saldo || 0)
+const getIncomingSum = computed(() => trackerStore?.getIncomingSum || 0)
+const getRevenuesSum = computed(() => trackerStore?.getRevenuesSum || 0)
+
 const stats = [
-  { name: 'Przychodów', value: trackerStore.getIncomingCount, subname: 'Kwota' , subValue: trackerStore.getIncomingSum  },
-  { name: 'Kosztów', value: trackerStore.getRevenuesCount, subname: 'Kwota' , subValue: trackerStore.getRevenuesSum },
+  { name: 'Przychodów', value: getIncomingCount, subname: 'Kwota' , subValue: getIncomingSum  },
+  { name: 'Kosztów', value: getRevenuesCount, subname: 'Kwota' , subValue: getRevenuesSum },
   { name: 'Ogółem wierszy', value: trackerStore.getRowCount, },
-  { name: 'Saldo', value: trackerStore.saldo },
+  { name: 'Saldo', value: saldo },
 ]
+
 const statuses = { Completed: 'text-green-400 bg-green-400/10', Error: 'text-rose-400 bg-rose-400/10' }
 
 const activityItems = computed(() => trackerStore.getTrackers)
